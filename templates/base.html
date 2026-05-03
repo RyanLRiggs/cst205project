@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    {{ bootstrap.load_css() }}
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .emotion-board {
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .emotion-link {
+            position: absolute;
+            display: block;
+            border-radius: 10px;
+            text-indent: -9999px;
+            overflow: hidden;
+        }
+
+        .emotion-link:focus,
+        .emotion-link:hover {
+            outline: 4px solid rgba(13, 110, 253, 0.75);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    {% block content %}{% endblock %}
+    {{ bootstrap.load_js() }}
+</body>
+</html>

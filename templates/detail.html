@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ emotion.title }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm text-center">
+                <div class="card-body">
+                    <h1 class="card-title mb-3">{{ emotion.title }}</h1>
+
+                    <img src="{{ url_for('static', filename=emotion.id ~ '.png') }}"
+                         class="img-fluid my-3"
+                         alt="{{ emotion.title }} emotion picture">
+
+                    <p class="lead">Now Playing: {{ emotion.title }}</p>
+
+                    <a href="{{ url_for('index') }}" class="btn btn-primary">Back to emotions</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
