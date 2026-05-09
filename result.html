@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<!-- result.html - shows the playlist that was created -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playlist Created - Mood Music</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #1a1a2e;
+      color: #eee;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .container {
+      max-width: 650px;
+      margin: 0 auto;
+      padding: 30px 16px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .nav a {
+      color: #aaa;
+      text-decoration: none;
+      font-size: 0.9rem;
+      padding: 6px 14px;
+      border: 1px solid #333;
+      border-radius: 6px;
+    }
+
+    .nav a:hover {
+      color: #eee;
+      border-color: #e94560;
+    }
+
+    h1 {
+      color: #1db954;
+      margin-bottom: 5px;
+    }
+
+    .spotify-btn {
+      display: inline-block;
+      margin: 15px 0;
+      background: #1db954;
+      color: white;
+      padding: 10px 25px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .spotify-btn:hover {
+      background: #17a349;
+    }
+
+    /* track list */
+    .track-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 10px;
+    }
+
+    .track-list li {
+      background: #16213e;
+      border-radius: 8px;
+      padding: 10px 15px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .track-name {
+      font-weight: bold;
+    }
+
+    .track-artist {
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-top: 3px;
+    }
+
+    .track-link {
+      color: #1db954;
+      font-size: 0.85rem;
+      text-decoration: none;
+      margin-left: 10px;
+      white-space: nowrap;
+    }
+
+    .track-link:hover {
+      text-decoration: underline;
+    }
+
+    .error-box {
+      background: #3b0f1a;
+      border-left: 4px solid #e94560;
+      padding: 15px 20px;
+      border-radius: 8px;
+      color: #f88;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="nav">
+      <a href="/">🏠 Home</a>
+    </div>
+
+    {% if error %}
+      <div class="error-box">
+        <strong>Something went wrong:</strong><br>{{ error }}
+      </div>
+
+    {% else %}
+      <h1>✅ Playlist Created!</h1>
+      <p style="color: #aaa;">
+        <strong style="color: #eee;">{{ playlist_name }}</strong> &nbsp;|&nbsp;
+        Mood: {{ mood }} &nbsp;|&nbsp;
+        {{ "Public" if public else "Private" }}
+        {% if extra_prompt %}&nbsp;|&nbsp; Vibe: {{ extra_prompt }}{% endif %}
+      </p>
+
+      <a class="spotify-btn" href="{{ playlist_url }}" target="_blank">Open on Spotify 🎵</a>
+
+      <h4 style="color: #ccc; margin-top: 20px;">Tracks added ({{ tracks | length }})</h4>
+      <ul class="track-list">
+        {% for track in tracks %}
+        <li>
+          <div>
+            <div class="track-name">{{ loop.index }}. {{ track.name }}</div>
+            <div class="track-artist">{{ track.artists }}</div>
+          </div>
+          {% if track.url %}
+          <a class="track-link" href="{{ track.url }}" target="_blank">Open ↗</a>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+  </div>
+</body>
+</html>

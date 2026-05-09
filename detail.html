@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<!-- detail.html - emotion detail page with playlist form -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ emotion.title }} - Mood Music</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #1a1a2e;
+      color: #eee;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 30px 16px;
+    }
+
+    /* nav buttons at top */
+    .nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .nav a {
+      color: #aaa;
+      text-decoration: none;
+      font-size: 0.9rem;
+      padding: 6px 14px;
+      border: 1px solid #333;
+      border-radius: 6px;
+    }
+
+    .nav a:hover {
+      color: #eee;
+      border-color: #e94560;
+    }
+
+    h1 {
+      color: #e94560;
+      margin: 0 0 5px 0;
+    }
+
+    /* emotion image */
+    .emotion-img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 3px solid #e94560;
+      display: block;
+      margin: 15px auto 10px auto;
+    }
+
+    .img-meta {
+      font-size: 0.78rem;
+      color: #555;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* playlist form card */
+    .card {
+      background: #16213e;
+      border: 1px solid #e94560;
+      border-radius: 10px;
+      padding: 25px;
+    }
+
+    .card h4 {
+      color: #e94560;
+      margin-top: 0;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      color: #ccc;
+      font-size: 0.9rem;
+      margin-top: 12px;
+      margin-bottom: 4px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      background: #0f3460;
+      border: 1px solid #444;
+      color: #eee;
+      border-radius: 6px;
+      padding: 8px 12px;
+      width: 100%;
+      font-size: 0.95rem;
+      box-sizing: border-box;
+    }
+
+    .btn-generate {
+      background: #e94560;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 18px;
+    }
+
+    .btn-generate:hover {
+      background: #c73652;
+    }
+
+    .btn-generate:disabled {
+      background: #555;
+      cursor: not-allowed;
+    }
+
+    .login-notice {
+      background: #0f3460;
+      border-left: 4px solid #1db954;
+      padding: 12px 16px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    .login-notice a {
+      color: #1db954;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- home buttons -->
+    <div class="nav">
+      <a href="/">🏠 Home</a>
+    </div>
+
+    <h1>{{ emotion.title }}</h1>
+    <p style="color: #aaa;">{{ emotion.description }}</p>
+
+    <!-- individual emotion image -->
+    <img class="emotion-img" src="/images/{{ emotion.id }}.png" alt="{{ emotion.title }}">
+
+    <!-- playlist form -->
+    <div class="card">
+      <h4>🎵 Create Your Playlist</h4>
+
+      {% if not logged_in %}
+      <div class="login-notice">
+        You need to <a href="/login">connect Spotify</a> before generating a playlist.
+      </div>
+      {% endif %}
+
+      <form method="POST" action="/generate/{{ emotion.id }}">
+
+        <label>Playlist name</label>
+        <input type="text" name="playlist_name" placeholder="{{ emotion.title }} Mood Mix">
+
+        <label>Add a vibe or artist (optional)</label>
+        <input type="text" name="extra_prompt" placeholder="e.g. Taylor Swift, lo-fi, 90s...">
+
+        <label>Number of songs</label>
+        <input type="number" name="track_count" value="20" min="5" max="50">
+
+        <label>Make playlist public?</label>
+        <select name="is_public">
+          <option value="false">No - keep it private</option>
+          <option value="true">Yes - make it public</option>
+        </select>
+
+        <button type="submit" class="btn-generate" {% if not logged_in %}disabled{% endif %}>
+          Generate Playlist on Spotify
+        </button>
+
+      </form>
+    </div>
+
+  </div>
+</body>
+</html>
