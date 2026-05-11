@@ -1,36 +1,131 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<!-- index.html - home page / mood board -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mood Music</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #1a1a2e;
+      color: #eee;
+      font-family: 'Segoe UI', sans-serif;
+    }
 
-{% block title %}Emotion Picker{% endblock %}
+    .container {
+      max-width: 850px;
+      margin: 0 auto;
+      padding: 30px 16px;
+    }
 
-{% block content %}
-<div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-lg-9">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <h1 class="card-title mb-3">Emotion Picker</h1>
+    h1 {
+      text-align: center;
+      color: #e94560;
+      margin-bottom: 5px;
+    }
 
-                    <div class="emotion-board mt-4">
-                        <img src="{{ url_for('static', filename='emotions.png') }}"
-                             class="img-fluid rounded"
-                             alt="A chart of emotions with clickable pictures">
+    .subtitle {
+      text-align: center;
+      color: #aaa;
+      margin-bottom: 10px;
+    }
 
-                        {% for emotion in emotions %}
-                        <a href="{{ url_for('detail', emotion_id=emotion.id) }}"
-                           class="emotion-link"
-                           style="left: {{ emotion.position.left }}%; top: {{ emotion.position.top }}%; width: {{ emotion.position.width }}%; height: {{ emotion.position.height }}%;"
-                           aria-label="View {{ emotion.title }} emotion">
-                            {{ emotion.title }}
-                        </a>
-                        {% endfor %}
-                    </div>
+    .login-bar {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 0.95rem;
+    }
 
-                    <p class="text-muted mt-3">
-                        Main image: {{ metadata.format }} format, {{ metadata.width }} x {{ metadata.height }} pixels
-                    </p>
-                </div>
-            </div>
-        </div>
+    .login-bar a {
+      color: #1db954;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    /* grid of emotion buttons */
+    .emotion-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    /* each emotion is a clickable card with its image */
+    .emotion-card {
+      background: #16213e;
+      border: 2px solid #333;
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      color: #eee;
+      padding-bottom: 10px;
+      display: block;
+      transition: border-color 0.2s;
+    }
+
+    .emotion-card:hover {
+      border-color: #e94560;
+      color: #eee;
+    }
+
+    .emotion-card img {
+      width: 100%;
+      border-radius: 8px 8px 0 0;
+      display: block;
+    }
+
+    .emotion-card span {
+      display: block;
+      margin-top: 8px;
+      font-size: 0.95rem;
+      font-weight: bold;
+    }
+
+    /* image metadata at the bottom */
+    .img-meta {
+      text-align: center;
+      font-size: 0.78rem;
+      color: #555;
+      margin-top: 20px;
+    }
+
+    footer {
+      text-align: center;
+      color: #444;
+      font-size: 0.8rem;
+      padding: 25px 0 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <h1>🎵 Mood Music</h1>
+    <p class="subtitle">Click how you feel and we'll make you a Spotify playlist</p>
+
+    <div class="login-bar">
+      {% if logged_in %}
+        ✅ Connected to Spotify &nbsp;|&nbsp; <a href="/logout">Log out</a>
+      {% else %}
+        <a href="/login">🔗 Connect Spotify to generate playlists</a>
+      {% endif %}
     </div>
-</div>
-{% endblock %}
+
+    <!-- emotion image grid, each one links to its detail page -->
+    <div class="emotion-grid">
+      {% for emotion in emotions %}
+      <a class="emotion-card" href="/emotion/{{ emotion.id }}">
+        <img src="/images/{{ emotion.id }}.png" alt="{{ emotion.title }}">
+        <span>{{ emotion.title }}</span>
+      </a>
+      {% endfor %}
+    </div>
+
+  </div>
+
+  <footer>
+    CST 205 Final Project &mdash; Ryan, Andrew, Chris, Diego &mdash; 2026
+  </footer>
+</body>
+</html>
