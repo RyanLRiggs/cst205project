@@ -12,7 +12,10 @@ How to:
   5. copy html link and paste it into search engine
   6. profit
   Warning: right how the program only works with andrews spotify.
-           If you want to use it on your own you will need to change the spotify credentials, check your .env file
+           If you want to use it on your own you will need make your own .env file to change the spotify credentials
+           You will need to add these: SPOTIFY_CLIENT_ID=your_client_id
+                                        SPOTIFY_CLIENT_SECRET=your_client_secret
+                                        REDIRECT_URI=http://localhost:5000/callback
 
 Trello Link: https://trello.com/b/mhWUt7MV/final-project-cst205 
 GitHub link: https://github.com/RyanLRiggs/cst205project
